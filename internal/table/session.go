@@ -57,6 +57,10 @@ type session struct {
 	nodeID       atomic.Uint32
 }
 
+func (s *session) IsAlive() bool {
+	return s.Status() == table.SessionReady
+}
+
 func (s *session) LastUsage() time.Time {
 	return time.Unix(s.lastUsage.Load(), 0)
 }
@@ -588,10 +592,10 @@ func copyTables(
 	operationTimeout time.Duration,
 	operationCancelAfter time.Duration,
 	service interface {
-		CopyTables(
-			ctx context.Context, in *Ydb_Table.CopyTablesRequest, opts ...grpc.CallOption,
-		) (*Ydb_Table.CopyTablesResponse, error)
-	},
+	CopyTables(
+		ctx context.Context, in *Ydb_Table.CopyTablesRequest, opts ...grpc.CallOption,
+	) (*Ydb_Table.CopyTablesResponse, error)
+},
 	opts ...options.CopyTablesOption,
 ) (err error) {
 	request := Ydb_Table.CopyTablesRequest{
@@ -638,10 +642,10 @@ func renameTables(
 	operationTimeout time.Duration,
 	operationCancelAfter time.Duration,
 	service interface {
-		RenameTables(
-			ctx context.Context, in *Ydb_Table.RenameTablesRequest, opts ...grpc.CallOption,
-		) (*Ydb_Table.RenameTablesResponse, error)
-	},
+	RenameTables(
+		ctx context.Context, in *Ydb_Table.RenameTablesRequest, opts ...grpc.CallOption,
+	) (*Ydb_Table.RenameTablesResponse, error)
+},
 	opts ...options.RenameTablesOption,
 ) (err error) {
 	request := Ydb_Table.RenameTablesRequest{
